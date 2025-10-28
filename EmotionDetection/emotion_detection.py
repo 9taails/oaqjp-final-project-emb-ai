@@ -14,7 +14,8 @@ def emotion_detector(text_to_analyze):
 
     #Find the dominant emotion using bubble sort
     max_value = emotions["anger"]   #Setting the comparison base to first emotion on the list
-
+    max_emotion = "anger"       # Set the default emotion name to anger
+    
     for emotion in emotions:
         score = emotions[emotion]
         if score > max_value:
