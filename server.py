@@ -12,8 +12,10 @@ def home():
 def RunSentimentAnalysis():
     
     text_to_analyze = request.args.get("textToAnalyze") #Retrieve the input from the user
+
     response = emotion_detector(text_to_analyze)    # Run it through the detector function
 
+    # Assign each score to an emotion variable so it is easier to format for the output.
     anger = response["anger"] 
     disgust = response["disgust"]
     fear = response["fear"]
@@ -21,6 +23,7 @@ def RunSentimentAnalysis():
     sad = response["sadness"] 
     dominant_emotion = response["dominant_emotion"]
 
+    # Set the output message with a cleaner formatting.
     output = (f"<p>For the given statetement, the system response is:</p><p>Anger: {anger}</p><p>Disgust: {disgust}</p><p>Fear: {fear}</p><p>Joy: {joy}</p><p>Sadness: {sad}</p><p>The dominant emotion is <b>{dominant_emotion.upper()}</b>.</p>")
 
     return output   
