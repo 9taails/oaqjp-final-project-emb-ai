@@ -10,26 +10,50 @@ def emotion_detector(text_to_analyze):
 
     response = requests.post(url, json=text_obj, headers=header)
     json_dict = json.loads(response.text)
-    emotions = json_dict["emotionPredictions"][0]["emotion"]
 
-    #Find the dominant emotion using bubble sort
-    max_value = emotions["anger"]   #Setting the comparison base to first emotion on the list
-    max_emotion = "anger"       # Set the default emotion name to anger
-    
-    for emotion in emotions:
-        score = emotions[emotion]
-        if score > max_value:
-            max_value = score
-            max_emotion = emotion
+    # Add error handling
+    if response.status_code == 200:
+
+        emotions = json_dict["emotionPredictions"][0]["emotion"]
+
+        #Find the dominant emotion using bubble sort
+
+        max_value = emotions["anger"]   # Setting the comparison base to first emotion on the list
+        max_emotion = "anger"           # Setting the default emotion name to anger
+        
+        for emotion in emotions:
+            score = emotions[emotion]
+            if score > max_value:
+                max_value = score
+                max_emotion = emotion
+
+        anger = emotions["anger"]
+        disgust = emotions["disgust"]
+        fear = emotions["fear"]
+        joy = emotions["joy"]
+        sadness = emotions["sadness"]
+        dominant_emotion = max_emotion
+
+    elif response.status_code == 400:
+
+        # Set all emotion scores to None when there is no text input from the user
+
+        anger = None
+        disgust = None
+        fear = None
+        joy = None
+        sadness = None
+        dominant_emotion = None
 
     # Create a filtered dictionary with emotions and their scores only
-    emotion_score = {
-                    'anger': emotions["anger"],
-                    'disgust': emotions["disgust"],
-                    'fear': emotions["fear"],
-                    'joy': emotions["joy"],
-                    'sadness': emotions["sadness"],
-                    'dominant_emotion': max_emotion
-                    }
+    output = {  
+        'anger': anger,
+        'disgust': disgust,
+        'fear': fear,
+        'joy': joy,
+        'sadness': sadness,
+        'dominant_emotion': dominant_emotion
+        }
+    
+    return output
 
-    return emotion_score

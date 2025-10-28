@@ -23,6 +23,9 @@ def RunSentimentAnalysis():
     sad = response["sadness"] 
     dominant_emotion = response["dominant_emotion"]
 
+    if dominant_emotion is None:
+        return "<b>Invalid text! Please try again!</b>"
+    
     # Set the output message with a cleaner formatting.
     output = (f"<p>For the given statetement, the system response is:</p><p>Anger: {anger}</p><p>Disgust: {disgust}</p><p>Fear: {fear}</p><p>Joy: {joy}</p><p>Sadness: {sad}</p><p>The dominant emotion is <b>{dominant_emotion.upper()}</b>.</p>")
 
